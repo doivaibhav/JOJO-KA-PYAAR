@@ -8,43 +8,55 @@
   <style>
     body {
       margin: 0;
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #ffdde1, #fff1f4);
+      background: linear-gradient(135deg, #ffe0e6, #fff);
       font-family: system-ui, sans-serif;
       text-align: center;
-      overflow: hidden;
     }
 
     .card {
       background: white;
-      padding: 36px 28px;
-      border-radius: 18px;
-      width: 420px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.12);
+      padding: 30px;
+      border-radius: 16px;
+      width: 360px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
       position: relative;
     }
 
-    button {
-      padding: 12px 22px;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      margin: 8px;
-      font-size: 16px;
+    h1 {
+      margin-bottom: 10px;
     }
 
-    .yes {
+    p {
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 20px;
+      border-radius: 999px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 8px;
+    }
+
+    .anu {
       background: #ff4d6d;
       color: white;
     }
 
-    .subhi {
+    .shubhi {
       background: #ffd166;
-      font-weight: 600;
       position: absolute;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 15px;
     }
 
     .hidden {
@@ -54,87 +66,74 @@
 </head>
 <body>
 
-  <!-- AUDIO -->
-  <audio id="yesSong" src="hasi-ban-gaye.mp3"></audio>
-  <audio id="hellSong" src="make-you-mine.mp3"></audio>
+  <!-- QUESTION CARD -->
+  <div class="card" id="questionCard">
+    <h1>JOJO KI SHAADI ❤️</h1>
+    <p>JOJO ko sabse zyada kaun pasand hai?</p>
 
-  <!-- QUESTION -->
-  <div class="card" id="question">
-    <h2>JOJO Ka SACCHA PYAAR ❤️</h2>
-    <p>JOJO KA SACCHA PYAAR KAUN HAI?</p>
-
-    <button class="yes" onclick="chooseAnupriya()">Anupriya</button>
-    <button class="subhi" id="subhiBtn" onclick="chooseSubhi()">SUBHI BKL 😌</button>
+    <button class="anu" onclick="chooseAnu()">Anupriya</button>
+    <button class="shubhi" id="shubhiBtn" onclick="chooseShubhi()">
+      Shubhi BKL 😌
+    </button>
   </div>
 
-  <!-- ANUPRIYA -->
+  <!-- ANUPRIYA RESULT -->
   <div class="card hidden" id="anuCard">
-    <h2>Kamino Saalo 😌</h2>
-    <p>Soft choice. Safe choice.</p>
+    <h1>😏</h1>
+    <p>Ek baar aur sooch le</p>
+    <img src="Anupriya1.gif" />
   </div>
 
-  <!-- SUBHI -->
-  <div class="card hidden" id="subhiCard">
-    <h2>10 crore rupaye 💸</h2>
+  <!-- SHUBHI RESULT -->
+  <div class="card hidden" id="shubhiCard">
+    <h1>😂</h1>
     <p>Asli kamine dost tum hi ho</p>
-    <img src="celebrate3.gif" width="100%" />
-    <p>JOJO ko Shaadi mubarak 🎉</p>
+    <img src="celebrate3.gif" />
   </div>
 
   <script>
-    const subhiBtn = document.getElementById("subhiBtn");
-    const card = document.getElementById("question");
+    const shubhiBtn = document.getElementById("shubhiBtn");
+    const questionCard = document.getElementById("questionCard");
 
-    let unlocked = false;
-    let handler;
+    let running = true;
 
-    function moveButton() {
-      if (unlocked) return;
+    function moveShubhi() {
+      if (!running) return;
 
-      const maxX = card.clientWidth - subhiBtn.offsetWidth;
-      const maxY = card.clientHeight - subhiBtn.offsetHeight;
+      const maxX = questionCard.clientWidth - shubhiBtn.offsetWidth;
+      const maxY = questionCard.clientHeight - shubhiBtn.offsetHeight;
 
       const x = Math.random() * maxX;
       const y = Math.random() * maxY;
 
-      subhiBtn.style.left = x + "px";
-      subhiBtn.style.top = y + "px";
+      shubhiBtn.style.left = x + "px";
+      shubhiBtn.style.top = y + "px";
     }
 
     // Initial position
-    moveButton();
+    moveShubhi();
 
-    handler = () => moveButton();
-    card.addEventListener("mousemove", handler);
+    // Move on hover
+    shubhiBtn.addEventListener("mouseenter", moveShubhi);
 
-    // Unlock after 40 seconds
+    // Stop running after 40 seconds
     setTimeout(() => {
-      unlocked = true;
-      card.removeEventListener("mousemove", handler);
-
-      subhiBtn.style.left = "50%";
-      subhiBtn.style.top = "75%";
-      subhiBtn.style.transform = "translateX(-50%)";
+      running = false;
+      shubhiBtn.style.left = "50%";
+      shubhiBtn.style.top = "70%";
+      shubhiBtn.style.transform = "translateX(-50%)";
     }, 40000);
 
-    function chooseAnupriya() {
-      question.classList.add("hidden");
-      anuCard.classList.remove("hidden");
-
-      const song = document.getElementById("yesSong");
-      song.currentTime = 44;
-      song.play();
+    function chooseAnu() {
+      document.getElementById("questionCard").classList.add("hidden");
+      document.getElementById("anuCard").classList.remove("hidden");
     }
 
-    function chooseSubhi() {
-      if (!unlocked) return;
+    function chooseShubhi() {
+      if (running) return;
 
-      question.classList.add("hidden");
-      subhiCard.classList.remove("hidden");
-
-      const song = document.getElementById("hellSong");
-      song.currentTime = 47;
-      song.play();
+      document.getElementById("questionCard").classList.add("hidden");
+      document.getElementById("shubhiCard").classList.remove("hidden");
     }
   </script>
 
