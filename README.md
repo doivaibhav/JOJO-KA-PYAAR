@@ -97,17 +97,19 @@
 
     let running = true;
 
-    function moveShubhi() {
-      if (!running) return;
+    function moveShubhi() function moveShubhi() {
+  if (!running) return;
 
-      const maxX = questionCard.clientWidth - shubhiBtn.offsetWidth;
-      const maxY = questionCard.clientHeight - shubhiBtn.offsetHeight;
+  const maxX = window.innerWidth - shubhiBtn.offsetWidth;
+  const maxY = window.innerHeight - shubhiBtn.offsetHeight;
 
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
 
-      shubhiBtn.style.left = x + "px";
-      shubhiBtn.style.top = y + "px";
+  shubhiBtn.style.left = x + "px";
+  shubhiBtn.style.top = y + "px";
+}
+
     }
 
     // Initial position
