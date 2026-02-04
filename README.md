@@ -13,9 +13,8 @@
       align-items: center;
       justify-content: center;
       background: linear-gradient(135deg, #ffdde1, #fff1f4);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: system-ui, sans-serif;
       text-align: center;
-      color: #333;
       overflow: hidden;
     }
 
@@ -23,29 +22,18 @@
       background: white;
       padding: 36px 28px;
       border-radius: 18px;
-      max-width: 420px;
+      width: 420px;
       box-shadow: 0 25px 50px rgba(0,0,0,0.12);
-    }
-
-    h1 {
-      font-size: 28px;
-      margin-bottom: 12px;
-    }
-
-    p {
-      font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 24px;
+      position: relative;
     }
 
     button {
-      font-size: 16px;
       padding: 12px 22px;
       border-radius: 999px;
       border: none;
       cursor: pointer;
       margin: 8px;
-      position: relative;
+      font-size: 16px;
     }
 
     .yes {
@@ -53,20 +41,10 @@
       color: white;
     }
 
-    .hell {
+    .subhi {
       background: #ffd166;
-      color: #333;
       font-weight: 600;
-    }
-
-    .runaway {
-      transition: transform 0.12s ease;
-    }
-
-    img {
-      max-width: 100%;
-      border-radius: 12px;
-      margin-top: 16px;
+      position: absolute;
     }
 
     .hidden {
@@ -76,106 +54,87 @@
 </head>
 <body>
 
-  <!-- AUDIO FILES -->
-  <audio id="yesSong" preload="auto">
-    <source src="hasi-ban-gaye.mp3" type="audio/mpeg">
-  </audio>
+  <!-- AUDIO -->
+  <audio id="yesSong" src="hasi-ban-gaye.mp3"></audio>
+  <audio id="hellSong" src="make-you-mine.mp3"></audio>
 
-  <audio id="hellSong" preload="auto">
-    <source src="make-you-mine.mp3" type="audio/mpeg">
-  </audio>
-
-  <!-- QUESTION SCREEN -->
+  <!-- QUESTION -->
   <div class="card" id="question">
-    <h1>JOJO Ka SACCHA PYAAR ❤️</h1>
-
+    <h2>JOJO Ka SACCHA PYAAR ❤️</h2>
     <p>JOJO KA SACCHA PYAAR KAUN HAI?</p>
 
-    <h1>Think before you choose</h1>
-
     <button class="yes" onclick="chooseAnupriya()">Anupriya</button>
-    <button class="hell runaway" id="runawayBtn" onclick="chooseSubhi()">
-      SUBHI BKL 😌
-    </button>
+    <button class="subhi" id="subhiBtn" onclick="chooseSubhi()">SUBHI BKL 😌</button>
   </div>
 
-  <!-- ANUPRIYA SCREEN -->
+  <!-- ANUPRIYA -->
   <div class="card hidden" id="anuCard">
-    <h1>Kamino Saalo 😌</h1>
+    <h2>Kamino Saalo 😌</h2>
     <p>Soft choice. Safe choice.</p>
   </div>
 
-  <!-- SUBHI SCREEN -->
+  <!-- SUBHI -->
   <div class="card hidden" id="subhiCard">
-    <h1>10 crore rupaye 💸</h1>
+    <h2>10 crore rupaye 💸</h2>
     <p>Asli kamine dost tum hi ho</p>
-
-    <img src="celebrate3.gif" alt="Celebration GIF" />
-
+    <img src="celebrate3.gif" width="100%" />
     <p>JOJO ko Shaadi mubarak 🎉</p>
   </div>
 
   <script>
-    const runawayBtn = document.getElementById("runawayBtn");
+    const subhiBtn = document.getElementById("subhiBtn");
+    const card = document.getElementById("question");
+
     let unlocked = false;
+    let handler;
 
-    // Unlock SUBHI button after 30 seconds
-    setTimeout(() => {
-      unlocked = true;
-      runawayBtn.classList.remove("runaway");
-      runawayBtn.style.transform = "translate(0,0)";
-    }, 30000);
-
-    document.addEventListener("mousemove", (e) => {
+    function moveButton() {
       if (unlocked) return;
 
-      const rect = runawayBtn.getBoundingClientRect();
-      const btnX = rect.left + rect.width / 2;
-      const btnY = rect.top + rect.height / 2;
+      const maxX = card.clientWidth - subhiBtn.offsetWidth;
+      const maxY = card.clientHeight - subhiBtn.offsetHeight;
 
-      const distance = Math.hypot(e.clientX - btnX, e.clientY - btnY);
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
 
-      if (distance < 160) {
-        const moveX = (Math.random() - 0.5) * window.innerWidth * 0.8;
-        const moveY = (Math.random() - 0.5) * window.innerHeight * 0.6;
-        runawayBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
-      }
-    });
+      subhiBtn.style.left = x + "px";
+      subhiBtn.style.top = y + "px";
+    }
+
+    // Initial position
+    moveButton();
+
+    handler = () => moveButton();
+    card.addEventListener("mousemove", handler);
+
+    // Unlock after 40 seconds
+    setTimeout(() => {
+      unlocked = true;
+      card.removeEventListener("mousemove", handler);
+
+      subhiBtn.style.left = "50%";
+      subhiBtn.style.top = "75%";
+      subhiBtn.style.transform = "translateX(-50%)";
+    }, 40000);
 
     function chooseAnupriya() {
-      document.getElementById("question").classList.add("hidden");
-      document.getElementById("anuCard").classList.remove("hidden");
+      question.classList.add("hidden");
+      anuCard.classList.remove("hidden");
 
       const song = document.getElementById("yesSong");
-
-      song.onloadedmetadata = () => {
-        song.currentTime = 44;
-        song.play();
-      };
-
-      if (song.readyState >= 1) {
-        song.currentTime = 44;
-        song.play();
-      }
+      song.currentTime = 44;
+      song.play();
     }
 
     function chooseSubhi() {
       if (!unlocked) return;
 
-      document.getElementById("question").classList.add("hidden");
-      document.getElementById("subhiCard").classList.remove("hidden");
+      question.classList.add("hidden");
+      subhiCard.classList.remove("hidden");
 
       const song = document.getElementById("hellSong");
-
-      song.onloadedmetadata = () => {
-        song.currentTime = 47;
-        song.play();
-      };
-
-      if (song.readyState >= 1) {
-        song.currentTime = 47;
-        song.play();
-      }
+      song.currentTime = 47;
+      song.play();
     }
   </script>
 
