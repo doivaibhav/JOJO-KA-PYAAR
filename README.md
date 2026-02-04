@@ -15,6 +15,7 @@
       background: linear-gradient(135deg, #ffe0e6, #fff);
       font-family: system-ui, sans-serif;
       text-align: center;
+      overflow: hidden;
     }
 
     .card {
@@ -50,7 +51,8 @@
 
     .shubhi {
       background: #ffd166;
-      position: absolute;
+      position: fixed; /* KEY for far movement */
+      z-index: 10;
     }
 
     img {
@@ -81,42 +83,38 @@
   <div class="card hidden" id="anuCard">
     <h1>😏</h1>
     <p>Ek baar aur sooch le</p>
-    <img src="Anupriya1.gif" />
+    <img src="anu.gif" />
   </div>
 
   <!-- SHUBHI RESULT -->
   <div class="card hidden" id="shubhiCard">
     <h1>😂</h1>
     <p>Asli kamine dost tum hi ho</p>
-    <img src="celebrate3.gif" />
+    <img src="shubhi.gif" />
   </div>
 
   <script>
     const shubhiBtn = document.getElementById("shubhiBtn");
-    const questionCard = document.getElementById("questionCard");
-
     let running = true;
 
-    function moveShubhi() function moveShubhi() {
-  if (!running) return;
+    function moveShubhiFar() {
+      if (!running) return;
 
-  const maxX = window.innerWidth - shubhiBtn.offsetWidth;
-  const maxY = window.innerHeight - shubhiBtn.offsetHeight;
+      const maxX = window.innerWidth - shubhiBtn.offsetWidth;
+      const maxY = window.innerHeight - shubhiBtn.offsetHeight;
 
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
 
-  shubhiBtn.style.left = x + "px";
-  shubhiBtn.style.top = y + "px";
-}
-
+      shubhiBtn.style.left = x + "px";
+      shubhiBtn.style.top = y + "px";
     }
 
-    // Initial position
-    moveShubhi();
+    // Initial placement
+    moveShubhiFar();
 
-    // Move on hover
-    shubhiBtn.addEventListener("mouseenter", moveShubhi);
+    // Move when cursor comes close
+    shubhiBtn.addEventListener("mouseenter", moveShubhiFar);
 
     // Stop running after 40 seconds
     setTimeout(() => {
