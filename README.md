@@ -112,7 +112,7 @@
     <h1>10 crore ruppe </h1>
     <p>Asli kamine dost tum hi ho</p>
 
-    <img src="celebrate2.gif" alt="Celebration GIF" />
+    <img src="celebrate3.gif" alt="Celebration GIF" />
 
     <p>JOJO ko Shaadi mubarak</p>
   </div>
