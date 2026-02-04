@@ -85,43 +85,41 @@
     <source src="make-you-mine.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- QUESTION -->
+  <!-- QUESTION SCREEN -->
   <div class="card" id="question">
     <h1>JOJO Ka SACCHA PYAAR ❤️</h1>
 
-    <p>
-      JOJO KA SACCHA PYAAR KAUN HAI?
-    </p>
+    <p>JOJO KA SACCHA PYAAR KAUN HAI?</p>
 
     <h1>Think before you choose</h1>
 
-    <button class="yes" onclick="yesClick()">Anupriya</button>
-    <button class="SHUBHI runaway" id="runawayBtn" onclick="SUBHI()">
+    <button class="yes" onclick="chooseAnupriya()">Anupriya</button>
+    <button class="hell runaway" id="runawayBtn" onclick="chooseSubhi()">
       SUBHI BKL 😌
     </button>
   </div>
 
-  <!-- Anupriya SCREEN -->
-  <div class="card hidden" id="yesCard">
-    <h1>Kamino Saalo</h1>
-    <p>
+  <!-- ANUPRIYA SCREEN -->
+  <div class="card hidden" id="anuCard">
+    <h1>Kamino Saalo 😌</h1>
+    <p>Soft choice. Safe choice.</p>
   </div>
 
-  <!-- Subhi BKL SCREEN -->
-  <div class="card hidden" id="gifCard">
-    <h1>10 crore ruppe </h1>
+  <!-- SUBHI SCREEN -->
+  <div class="card hidden" id="subhiCard">
+    <h1>10 crore rupaye 💸</h1>
     <p>Asli kamine dost tum hi ho</p>
 
     <img src="celebrate3.gif" alt="Celebration GIF" />
 
-    <p>JOJO ko Shaadi mubarak</p>
+    <p>JOJO ko Shaadi mubarak 🎉</p>
   </div>
 
   <script>
     const runawayBtn = document.getElementById("runawayBtn");
     let unlocked = false;
 
-    // Unlock SuBHI BKL after 40 seconds
+    // Unlock SUBHI button after 30 seconds
     setTimeout(() => {
       unlocked = true;
       runawayBtn.classList.remove("runaway");
@@ -144,14 +142,14 @@
       }
     });
 
-    function yesClick() {
+    function chooseAnupriya() {
       document.getElementById("question").classList.add("hidden");
-      document.getElementById("yesCard").classList.remove("hidden");
+      document.getElementById("anuCard").classList.remove("hidden");
 
       const song = document.getElementById("yesSong");
 
       song.onloadedmetadata = () => {
-        song.currentTime = 44; // 🎵 YES SONG START TIME
+        song.currentTime = 44;
         song.play();
       };
 
@@ -161,16 +159,16 @@
       }
     }
 
-    function hellYes() {
+    function chooseSubhi() {
       if (!unlocked) return;
 
       document.getElementById("question").classList.add("hidden");
-      document.getElementById("gifCard").classList.remove("hidden");
+      document.getElementById("subhiCard").classList.remove("hidden");
 
       const song = document.getElementById("hellSong");
 
       song.onloadedmetadata = () => {
-        song.currentTime = 47; // 🎵 HELL YEAH SONG START TIME
+        song.currentTime = 47;
         song.play();
       };
 
